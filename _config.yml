@@ -259,7 +259,7 @@ collections:
 compress_html:
   clippings: all
   ignore:
-    envs: production
+    envs: development
 
 
 # Defaults
@@ -287,7 +287,6 @@ defaults:
       type: foo
     values:
       layout: single
-  defaults:
   # _portfolio
   - scope:
       path: ""
