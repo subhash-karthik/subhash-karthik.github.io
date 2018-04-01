@@ -1,17 +1,17 @@
 # main links
-main:
-  - title: "Posts"
-    url: /post-2/
-  - title: "Categories"
-    url: /categories/
-  - title: "Tags"
-    url: /tags/
-  - title: "Pages"
-    url: /Portfolio/
-  - title: "Courses"
-    url: /courses/
-  - title: "Resume"
-    url: /resume/
+#main:
+#  - title: "Posts"
+#    url: /post-2/
+#  - title: "Categories"
+#    url: /categories/
+#  - title: "Tags"
+#    url: /tags/
+#  - title: "Pages"
+#    url: /Portfolio/
+#  - title: "Courses"
+#    url: /courses/
+#  - title: "Resume"
+#    url: /resume/
 docs:
   - title: Getting Started
     children:

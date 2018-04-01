@@ -1,5 +1,11 @@
-Quality Analysis of Wine
-================
+---
+title: "Understanding Wine quality and its constituents using statistical learning methods"
+date: 2018-04-01
+tags: [machine learning, Linear Regression, cross-validation]
+excerpt: "A forward step-wise selection approach of linear regression "
+toc: true
+Author: true  
+---
 
 Synopsis
 --------
@@ -9,7 +15,7 @@ The Goal of this project is to apply statistical learning methods to answer the 
 -   Which constituents(pedictors) found in wine are associated with the wine quality(response)
 -   Understanding the replationship between the response and predictors
 
-Relavent information: The data is obtained from the source [UCI ML datbase](https://archive.ics.uci.edu/ml/datasets/Wine).The data is compiled from results of chemical analyses of wines grown in same region in italy using differnet cultivars. The dataset has 1599 observation with 12 variables and "quality" is the interested respone.
+Relavent information: The data is obtained from the source [UCI ML datbase](https://archive.ics.uci.edu/ml/datasets/Wine).The data was compiled from results of chemical analyses of wines grown in same region in italy using differnet cultivars. The dataset has 1599 observation with 12 variables and "quality" is the interested respone.
 
 Overview of Analysis approach
 -----------------------------
@@ -121,7 +127,7 @@ wine_test<-wine[-ind,]
 
 ### Linear model selection
 
-Here we use forward stepwise selection, a computational efficient method to find the best set of predictors related to the respnse varible. Brief overview: It begins with a model containing no predictors, and then adds predictors to the model one at a time, until all predictors are in the model.At each step we have p-k models where p refers to total number of predictors and k represents the step index.We have approximately *p*<sup>2</sup> models which is futher reduced to *p* models.
+Here we use forward stepwise selection, a computationally efficient method to find the best set of predictors related to the respnse varible. Brief overview: It begins with a model containing no predictors, and then adds predictors to the model one at a time, until all predictors are in the model.At each step we have *p* − *k* models where p refers to total number of predictors and k represents the step index.We have approximately *p*<sup>2</sup> models which is futher reduced to *p* models.
 
 ``` r
 library(leaps)
@@ -184,7 +190,7 @@ summary(regfit.fwd)
     ## 10  ( 1 ) "*"                    " "     "*" "*"       "*"    
     ## 11  ( 1 ) "*"                    "*"     "*" "*"       "*"
 
-Here we can the best model of containing p=1,2,...,11 predictors variable and the actual varibles comprising the model.We plot a *C*<sub>*p*</sub> value for all the models found,and look for the lowest *C*<sub>*p*</sub> value as it corresponds to a lower test MSE.
+Here we can see the best models corresponding to *p* = 1, 2, ..., 11 predictor variables and the actual varibles comprising the model.We plot a *C*<sub>*p*</sub> value for all the models found,and look for the lowest *C*<sub>*p*</sub> value as it corresponds to a lower test MSE.
 
 ``` r
 plot(regfit.fwd,scale="Cp",col = "blue")
@@ -192,12 +198,23 @@ plot(regfit.fwd,scale="Cp",col = "blue")
 
 ![](/images/winequality-red_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
-karthik  From the above plot we see a lowest *C*<sub>*p*</sub> value around 6.7 comprising of predictor variable- \* Volatile acidity,chrolides,free sulphur dioxide,total sulphur dixide, pH,sulphates,alcohol. \* total number of predictor variables-7
+From the above plot we see a lowest *C*<sub>*p*</sub> value around 6.4 comprising of predictor variable-
+
+-   Volatile acidity,chrolides,free sulphur dioxide,total sulphur dixide, pH,sulphates,alcohol.
+-   total number of predictor variables in the model -7
 
 ### Model selection using 10 fold cross-validation
 
 Training set MSE is generally an underestimate of the test MSE.This because when we fit a model to the training data using least squares we find the parameters for which the model minimizes the train MSE.So training error decreases as we increase more number of variables.So by picking a model with lowest train MSE, we may overfit the model.
-There are number of techniques for adjusting the training error for the model size.Few pouplar approaches are \* Akaike Information Criterion (AIC) \* Bayesian Information Criterion (BIC) \* adjusted R-squared \* Mallow's *C*<sub>*p*</sub> \* k-fold Cross validation We have seen earlier to use the *C*<sub>*p*</sub> criteria to find a best model.Now we'll use 10-fold cross validation to pick the best model.The major advantage of using cross-validation is it doesn't require *σ*<sup>2</sup>, variance of the irreducible error.
+There are number of techniques for adjusting the training error for the model size.Few pouplar approaches are
+
+-   Akaike Information Criterion (AIC)
+-   Bayesian Information Criterion (BIC)
+-   adjusted R-squared
+-   Mallow's *C*<sub>*p*</sub>
+-   k-fold Cross validation
+
+We have seen earlier to use the *C*<sub>*p*</sub> criteria to find a best model.Now we'll use 10-fold cross validation to pick the best model.The major advantage of using cross-validation is it doesn't require *σ*<sup>2</sup>, variance of the irreducible error.
 
 ``` r
 predict.regsubsets=function(object,newdata,id,...){
@@ -236,7 +253,13 @@ legend("topright",legend=c("Training","Validation"),col=c("blue","red"),pch=19)
 
 ![](/images/winequality-red_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
-As we expect, the training error goes down monotonically as the model gets bigger, but not so for the validation error.The cross-validated method results in a 7 variable model,similar to the mallow *C*<sub>*p*</sub> approach.Lets check out the coeeficients of the best model.
+``` r
+min(rmse.cv)
+```
+
+    ## [1] 0.6452647
+
+As we expect, the training error goes down monotonically as the model gets bigger, but not so for the validation error.The cross-validated method results in a 7 variable model,similar to the mallow *C*<sub>*p*</sub> approach.Lets check out the coefficients of the best model.
 
 ``` r
 best.train=regsubsets(quality~.,data=wine_train,nvmax=11,method="forward")
@@ -262,12 +285,6 @@ test.error
     ## [1] 0.4535952
 
 ``` r
-plot((wine_test$quality-round(pred.test)),xlab="observations",ylab="deviation from actual quality",col="blue")
-```
-
-![](/images/winequality-red_files/figure-markdown_github/unnamed-chunk-10-1.png)
-
-``` r
 table(abs(wine_test$quality-round(pred.test)))
 ```
 
@@ -277,11 +294,37 @@ table(abs(wine_test$quality-round(pred.test)))
 
 From the counts table we see our model has performed well as it accurately predict quality of 307/317 obseravtions within 1 absolute quality difference, test MSE=0.4535
 
-### Inferences
-
 ``` r
-plot(wine_train$alcohol,wine_train$quality)
-points(wine_train$alcohol[wine_train$quality>6],wine_train$quality[wine_train$quality>6],col="blue")
+plot(pred.test,wine_test$quality,col="red",xlab="Predicted response",ylab="Actual quality")
+points(pred.test[wine_test$quality==round(pred.test)],wine_test$quality[wine_test$quality==round(pred.test)],col="green")
+points(pred.test[abs(wine_test$quality-round(pred.test))==1],wine_test$quality[abs(wine_test$quality-round(pred.test))==1],col="yellow")
+legend("topright",legend=c("Exact","Closeby","Wrong"),col=c("green","yellow","red"),pch=19)
 ```
 
 ![](/images/winequality-red_files/figure-markdown_github/unnamed-chunk-11-1.png)
+
+### Inferences
+
+From the forward selection approach we see the variables alcohol and volatile acidity as the top two variables related to the wine quality.Also there is a medium correlation between the wine quality and alcohol content.
+
+-   The plot suggest that alcohol content ranging from 12%-15% are rated better.
+-   The wine with higher acidity have been rated poor quality, this emphasises the fact from studies which show wine having higher acidity generally have undesirable odour as the volatile components of wine-the chemicals responsible for the many fruity, earthy aromas-become more reluctant to diffuse.Such types of wine are disliked which is also seen from the plot that wine having higher volatile acidity are rated low.
+
+``` r
+plot(wine_train$alcohol,wine_train$quality,legend=c("high quality"),xlab = "alcohol content",ylab = "wine quality")
+points(wine_train$alcohol[wine_train$quality>6],wine_train$quality[wine_train$quality>6],col="blue")
+points(wine_train$alcohol[wine_train$quality<7&wine_train$quality>4],wine_train$quality[wine_train$quality<7&wine_train$quality>4],col="yellow")
+points(wine_train$alcohol[wine_train$quality<5],wine_train$quality[wine_train$quality<5],col="red")
+legend("topright",legend=c("Good","Average","Poor"),col=c("blue","yellow","red"),pch=19)
+```
+
+![](/images/winequality-red_files/figure-markdown_github/unnamed-chunk-12-1.png)
+
+``` r
+plot(wine_train$`volatile acidity`,wine_train$alcohol,xlab="Volatile acidity",ylab="alcohol content",col="yellow")
+points(wine_train$`volatile acidity`[wine_train$quality>6],wine_train$alcohol[wine_train$quality>6],col="blue")
+points(wine_train$`volatile acidity`[wine_train$quality<5],wine_train$alcohol[wine_train$quality<5],col="red")
+legend("topright",legend=c("Liked","Disliked"),col=c("blue","red"),pch=19)
+```
+
+![](/images/winequality-red_files/figure-markdown_github/unnamed-chunk-13-1.png)
