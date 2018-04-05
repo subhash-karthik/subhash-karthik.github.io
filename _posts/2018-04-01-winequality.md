@@ -6,6 +6,10 @@ excerpt: "A forward step-wise selection approach of linear regression "
 toc: true
 Author: true  
 ---
+<style>
+body {
+text-align: justify}
+</style>
 
 Synopsis
 --------
