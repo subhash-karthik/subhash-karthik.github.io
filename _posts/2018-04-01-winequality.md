@@ -4,7 +4,10 @@ date: 2018-04-01
 tags: [machine learning, Linear Regression, cross-validation]
 excerpt: "A forward step-wise selection approach of linear regression "
 toc: true
-Author: true  
+Author: true
+header:
+  og_image: /images/wine`.jpg
+  teaser: /images/wine.jpg
 ---
 <style>
 body {
@@ -16,22 +19,22 @@ Synopsis
 
 The Goal of this project is to apply statistical learning methods to answer the following interesting questions:
 
--   Which constituents(pedictors) found in wine are associated with the wine quality(response)
--   Understanding the replationship between the response and predictors
+-   Which constituents(predictors) found in wine are associated with the wine quality(response)
+-   Understanding the relationship between the response and predictors
 
-Relavent information: The data is obtained from the source [UCI ML datbase](https://archive.ics.uci.edu/ml/datasets/Wine).The data was compiled from results of chemical analyses of wines grown in same region in italy using differnet cultivars. The dataset has 1599 observation with 12 variables and "quality" is the interested respone.
+Relevant information: The data is obtained from the source [UCI ML datbase](https://archive.ics.uci.edu/ml/datasets/Wine).The data was compiled from results of chemical analyses of wines grown in same region in Italy using different cultivars. The dataset has 1599 observation with 12 variables and "quality" is the interested response.
 
 Overview of Analysis approach
 -----------------------------
 
-1.  Data Preprocessing
+1.  Data Pre-processing
 2.  Forward step-wise selection
-3.  Model-selection using K-fold crossvalidation
+3.  Model-selection using K-fold cross validation
 4.  Inferences from the best-final model
 
-### Data preprocessing
+### Data pre-processing
 
-The data is loaded as wine, and the response variable is plotted.Then we examine the preditor variables and observations containing "NA" values are omitted.The data is then split into Train and Test dataset.The Train dataset is used for learning the parameters related to the model and the test data is used for final evaluation.
+The data is loaded as wine, and the response variable is plotted. Then we examine the predictor variables and observations containing "NA" values are omitted. The data is then split into Train and Test dataset. The Train dataset is used for learning the parameters related to the model and the test data is used for final evaluation.
 
 ``` r
 library(readr)
@@ -104,7 +107,7 @@ summary(wine)
     ##  Max.   :8.000  
     ##
 
-We see there are 2 NA values in the "total sulfur dioxide" variable, this missing values are handled by removing the observations corresponding to it.We'll also look the description of the variables(understood from the var names)and their type
+We see there are 2 NA values in the "total sulphur dioxide" variable, this missing values are handled by removing the observations corresponding to it. We'll also look the description of the variables(understood from the var names)and their type
 
 | Attribute            | variable type |
 |----------------------|---------------|
@@ -131,7 +134,7 @@ wine_test<-wine[-ind,]
 
 ### Linear model selection
 
-Here we use forward stepwise selection, a computationally efficient method to find the best set of predictors related to the respnse varible. Brief overview: It begins with a model containing no predictors, and then adds predictors to the model one at a time, until all predictors are in the model.At each step we have *p* − *k* models where p refers to total number of predictors and k represents the step index.We have approximately *p*<sup>2</sup> models which is futher reduced to *p* models.
+Here we use forward stepwise selection, a computationally efficient method to find the best set of predictors related to the response variable. Brief overview: It begins with a model containing no predictors, and then adds predictors to the model one at a time, until all predictors are in the model. At each step we have *p* − *k* models where p refers to total number of predictors and k represents the step index. We have approximately *p*<sup>2</sup> models which is further reduced to *p* models.
 
 ``` r
 library(leaps)
@@ -209,8 +212,8 @@ From the above plot we see a lowest *C*<sub>*p*</sub> value around 6.4 comprisin
 
 ### Model selection using 10 fold cross-validation
 
-Training set MSE is generally an underestimate of the test MSE.This because when we fit a model to the training data using least squares we find the parameters for which the model minimizes the train MSE.So training error decreases as we increase more number of variables.So by picking a model with lowest train MSE, we may overfit the model.
-There are number of techniques for adjusting the training error for the model size.Few pouplar approaches are
+Training set MSE is generally an underestimate of the test MSE.This because when we fit a model to the training data using least squares we find the parameters for which the model minimizes the train MSE.So training error decreases as we increase more number of variables. So by picking a model with lowest train MSE, we may over fit the model.
+There are number of techniques for adjusting the training error for the model size. Few popular approaches are
 
 -   Akaike Information Criterion (AIC)
 -   Bayesian Information Criterion (BIC)
@@ -218,7 +221,7 @@ There are number of techniques for adjusting the training error for the model si
 -   Mallow's *C*<sub>*p*</sub>
 -   k-fold Cross validation
 
-We have seen earlier to use the *C*<sub>*p*</sub> criteria to find a best model.Now we'll use 10-fold cross validation to pick the best model.The major advantage of using cross-validation is it doesn't require *σ*<sup>2</sup>, variance of the irreducible error.
+We have seen earlier to use the *C*<sub>*p*</sub> criteria to find a best model. Now we'll use 10-fold cross validation to pick the best model. The major advantage of using cross-validation is it doesn't require *σ*<sup>2</sup>, variance of the irreducible error.
 
 ``` r
 predict.regsubsets=function(object,newdata,id,...){
@@ -263,7 +266,7 @@ min(rmse.cv)
 
     ## [1] 0.6452647
 
-As we expect, the training error goes down monotonically as the model gets bigger, but not so for the validation error.The cross-validated method results in a 7 variable model,similar to the mallow *C*<sub>*p*</sub> approach.Lets check out the coefficients of the best model.
+As we expect, the training error goes down monotonically as the model gets bigger, but not so for the validation error. The cross-validated method results in a 7 variable model, similar to the mallow *C*<sub>*p*</sub> approach. Lets check out the coefficients of the best model.
 
 ``` r
 best.train=regsubsets(quality~.,data=wine_train,nvmax=11,method="forward")
@@ -296,7 +299,7 @@ table(abs(wine_test$quality-round(pred.test)))
     ##   0   1   2
     ## 189 118  10
 
-From the counts table we see our model has performed well as it accurately predict quality of 307/317 obseravtions within 1 absolute quality difference, test MSE=0.4535
+From the counts table we see our model has performed well as it accurately predict quality of 307/317 observations within 1 absolute quality difference, test MSE=0.4535
 
 ``` r
 plot(pred.test,wine_test$quality,col="red",xlab="Predicted response",ylab="Actual quality")
@@ -309,10 +312,10 @@ legend("topright",legend=c("Exact","Closeby","Wrong"),col=c("green","yellow","re
 
 ### Inferences
 
-From the forward selection approach we see the variables alcohol and volatile acidity as the top two variables related to the wine quality.Also there is a medium correlation between the wine quality and alcohol content.
+From the forward selection approach we see the variables alcohol and volatile acidity as the top two variables related to the wine quality. Also there is a medium correlation between the wine quality and alcohol content.
 
 -   The plot suggest that alcohol content ranging from 12%-15% are rated better.
--   The wine with higher acidity have been rated poor quality, this emphasises the fact from studies which show wine having higher acidity generally have undesirable odour as the volatile components of wine-the chemicals responsible for the many fruity, earthy aromas-become more reluctant to diffuse.Such types of wine are disliked which is also seen from the plot that wine having higher volatile acidity are rated low.
+-   The wine with higher acidity have been rated poor quality, this emphasises the fact from studies which show wine having higher acidity generally have undesirable odour as the volatile components of wine-the chemicals responsible for the many fruity, earthy aromas-become more reluctant to diffuse. Such types of wine are disliked which is also seen from the plot that wine having higher volatile acidity are rated low.
 
 ``` r
 plot(wine_train$alcohol,wine_train$quality,legend=c("high quality"),xlab = "alcohol content",ylab = "wine quality")
