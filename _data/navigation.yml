@@ -12,6 +12,9 @@
 #    url: /courses/
 #  - title: "Resume"
 #    url: /resume/
+main:
+  - title: "About"
+    url: /about/
 docs:
   - title: Getting Started
     children:

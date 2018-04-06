@@ -1,5 +1,5 @@
 ---
-title: "Understanding Wine quality and its constituents using statistical learning methods"
+title: "Gaining insights on Wine quality based on its constituents using statistical analysis"
 date: 2018-04-01
 tags: [machine learning, Linear Regression, cross-validation]
 excerpt: "A forward step-wise selection approach of linear regression "
