@@ -5,8 +5,8 @@ tags: [machine learning, Linear Regression, cross-validation]
 excerpt: "A forward step-wise selection approach of linear regression "
 toc: true
 Author: true
+toc_label: "Contents"
 header:
-  og_image: /images/wine`.jpg
   teaser: /images/wine.jpg
 ---
 <style>
