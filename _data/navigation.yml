@@ -13,10 +13,12 @@
 #  - title: "Resume"
 #    url: /resume/
 main:
-  - title: "About"
-    url: /about/
   - title: "Concepts"
     url: "/concepts/"
+  - title: "Weekly Posts"
+    url: /year-archive/
+  - title: "About"
+    url: /about/
 
 docs:
   - title: Getting Started
