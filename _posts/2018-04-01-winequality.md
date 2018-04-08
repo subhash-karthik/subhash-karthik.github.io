@@ -212,7 +212,7 @@ From the above plot we see a lowest *C*<sub>*p*</sub> value around 6.4 comprisin
 
 ### Model selection using 10 fold cross-validation
 
-Training set MSE is generally an underestimate of the test MSE.This because when we fit a model to the training data using least squares we find the parameters for which the model minimizes the train MSE.So training error decreases as we increase more number of variables. So by picking a model with lowest train MSE, we may over fit the model.
+Training set MSE is generally an underestimate of the test MSE. This because when we fit a model to the training data using least squares we find the parameters for which the model minimizes the train MSE. So training error decreases as we increase more number of variables. So by picking a model with lowest train MSE, we may over fit the model.
 There are number of techniques for adjusting the training error for the model size. Few popular approaches are
 
 -   Akaike Information Criterion (AIC)
