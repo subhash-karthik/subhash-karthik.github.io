@@ -1,7 +1,7 @@
 ---
 title: "Gaining insights on Wine quality from its constituents "
 date: 2018-04-01
-tags: [machine learning, Linear Regression, cross-validation]
+tags: [Machine learning, Linear Regression, cross-validation]
 excerpt: "A forward step-wise selection approach of linear regression and statistical analysis "
 toc: true
 Author: true
